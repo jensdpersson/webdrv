@@ -82,8 +82,10 @@ start_session(Opts, Capability) ->
 
 -spec start_session(#webdrv_opts{}, capability(), capability()) -> request_res().
 start_session(Opts, Desired, Required) ->
-  Params = [{desiredCapabilities, webdrv_cap:to_json(Desired)},
-            {requiredCapabilities, webdrv_cap:to_json(Required)}],
+  Params = [{capabilities, 
+             {firstMatch, [webdrv_cap:to_json(Desired)]},
+             {alwaysMatch, webdrv_cap:to_json(Required)}
+           }],
   do_post_cmd(Opts, "session", Params).
 
 -spec get_sessions(#webdrv_opts{}) -> request_res().
